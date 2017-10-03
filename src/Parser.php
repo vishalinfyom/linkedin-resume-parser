@@ -210,9 +210,11 @@ class Parser
             preg_match_all('/URI \(([^,]*?)\)/', $pdfContent, $urls);
 
             if (count($urls) > 0) {
-                $url = array_reverse($urls)[0][0];
-                if($url)
-                    $parsedResumeInstance->setUrl($url);
+                if (isset(array_reverse($urls)[0][0])) {
+                    $url = array_reverse($urls)[0][0];
+                    if($url)
+                        $parsedResumeInstance->setUrl($url);
+                }
             }
         }
 
