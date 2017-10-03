@@ -141,7 +141,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param string $name
      * @return ParsedResume
      */
-    public function setName(string $name)
+    public function setName(string $name): ParsedResume
     {
         $this->name = $name;
         return $this;
@@ -151,7 +151,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param string $name
      * @return ParsedResume
      */
-    public function setSurname(string $surname)
+    public function setSurname(string $surname): ParsedResume
     {
         $this->surname = $surname;
         return $this;
@@ -177,7 +177,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param string $emailAddress
      * @return ParsedResume
      */
-    public function setEmailAddress(string $emailAddress)
+    public function setEmailAddress(string $emailAddress): ParsedResume
     {
         $this->emailAddress = $emailAddress;
         return $this;
@@ -195,7 +195,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param Role $currentRole
      * @return ParsedResume
      */
-    public function setCurrentRole(Role $currentRole)
+    public function setCurrentRole(Role $currentRole): ParsedResume
     {
         $this->currentRole = $currentRole;
         return $this;
@@ -221,7 +221,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param Role[] $previousRoles
      * @return ParsedResume
      */
-    public function setPreviousRoles(array $previousRoles)
+    public function setPreviousRoles(array $previousRoles): ParsedResume
     {
         $this->previousRoles = $previousRoles;
         return $this;
@@ -251,7 +251,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param \string[] $skills
      * @return ParsedResume
      */
-    public function setSkills(array $skills)
+    public function setSkills(array $skills): ParsedResume
     {
         $this->skills = $skills;
         return $this;
@@ -261,7 +261,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param string $skill
      * @return ParsedResume
      */
-    public function addSkill(string $skill)
+    public function addSkill(string $skill): ParsedResume
     {
         $this->skills[] = $skill;
         return $this;
@@ -271,7 +271,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param string $name
      * @return ParsedResume
      */
-    public function setUrl(string $url)
+    public function setUrl(string $url): ParsedResume
     {
         $this->url = $url;
         return $this;
@@ -289,7 +289,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param EducationEntry[] $educationEntries
      * @return ParsedResume
      */
-    public function setEducationEntries(array $educationEntries)
+    public function setEducationEntries(array $educationEntries): ParsedResume
     {
         $this->educationEntries = $educationEntries;
         return $this;
@@ -307,7 +307,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param Certification[] $certifications
      * @return ParsedResume
      */
-    public function setCertifications(array $certifications)
+    public function setCertifications(array $certifications): ParsedResume
     {
         $this->certifications = $certifications;
         return $this;
@@ -325,7 +325,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param string $summary
      * @return ParsedResume
      */
-    public function setSummary(string $summary)
+    public function setSummary(string $summary): ParsedResume
     {
         $this->summary = $summary;
         return $this;
@@ -343,7 +343,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param VolunteerExperienceEntry[] $volunteerExperienceEntries
      * @return ParsedResume
      */
-    public function setVolunteerExperienceEntries(array $volunteerExperienceEntries)
+    public function setVolunteerExperienceEntries(array $volunteerExperienceEntries): ParsedResume
     {
         $this->volunteerExperienceEntries = $volunteerExperienceEntries;
         return $this;
@@ -361,7 +361,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param Language[] $languages
      * @return ParsedResume
      */
-    public function setLanguages(array $languages)
+    public function setLanguages(array $languages): ParsedResume
     {
         $this->languages = $languages;
         return $this;
@@ -379,7 +379,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param string $interests
      * @return ParsedResume
      */
-    public function setInterests(string $interests)
+    public function setInterests(string $interests): ParsedResume
     {
         $this->interests = $interests;
         return $this;
@@ -433,7 +433,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param Course[] $courses
      * @return ParsedResume
      */
-    public function setCourses(array $courses)
+    public function setCourses(array $courses): ParsedResume
     {
         $this->courses = $courses;
         return $this;
@@ -451,7 +451,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param Project[] $projects
      * @return ParsedResume
      */
-    public function setProjects(array $projects)
+    public function setProjects(array $projects): ParsedResume
     {
         $this->projects = $projects;
         return $this;
@@ -461,7 +461,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param Recommendation[] $recommendations
      * @return ParsedResume
      */
-    public function setRecommendations(array $recommendations)
+    public function setRecommendations(array $recommendations): ParsedResume
     {
         $this->recommendations = $recommendations;
         return $this;
@@ -479,7 +479,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      * @param TestScore[] $testScores
      * @return ParsedResume
      */
-    public function setTestScores(array $testScores)
+    public function setTestScores(array $testScores): ParsedResume
     {
         $this->testScores = $testScores;
         return $this;
