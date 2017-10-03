@@ -86,7 +86,7 @@ class Parser
      * @throws ParseException
      * @throws \Exception
      */
-    public function parse(string $filePath, array $sections = []): ParsedResume
+    public function parse(string $filePath, array $sections = [])
     {
         if ( ! file_exists($filePath)) {
             throw new FileNotFoundException("The file at $filePath does not exist.");
