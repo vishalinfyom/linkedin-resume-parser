@@ -1,12 +1,13 @@
 {
-    "name": "ver1000000/linkedin-resume-parser",
+    "name": "akhileshdarjee/linkedin-resume-parser",
     "type": "library",
-    "description": "Parses LinkedIn PDF resumes into a set of usable entities",
+    "description": "Parses LinkedIn PDF resumes from recruitment portal into a set of usable entities",
     "keywords": [
         "linkedin",
         "pdf",
         "resume",
-        "parser"
+        "parser",
+        "hr-recruitment-portal"
     ],
     "license": "MIT",
     "authors": [

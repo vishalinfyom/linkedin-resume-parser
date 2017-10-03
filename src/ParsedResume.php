@@ -498,7 +498,10 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
      */
     public function getUrl(): string
     {
-        return $this->url;
+        if($this->url)
+            return $this->url;
+        else
+            return '';
     }
 
     /**
