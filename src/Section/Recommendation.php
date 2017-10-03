@@ -74,7 +74,7 @@ class Recommendation implements JsonSerializable, Arrayable, ArrayAccess
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -92,7 +92,7 @@ class Recommendation implements JsonSerializable, Arrayable, ArrayAccess
     /**
      * @return string
      */
-    public function getRelation(): string
+    public function getRelation()
     {
         return $this->relation;
     }
