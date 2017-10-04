@@ -1132,15 +1132,14 @@ class Parser
             $recommendationLineText = $recommendationLine->getText();
             $recommendationLineText = $this->cleanString($recommendationLineText);
 
-            if (preg_match('/^&#34;/', $recommendationLineText)) {
+            if (preg_match('/^&#34;\w/', $recommendationLineText)) {
 
                 $previousLineType = 'summary';
-                
+
                 $recommendation = (new Recommendation())->appendSummary(trim($recommendationLineText));
                 if (isset($recommendation)) {
                     $recommendations[] = $recommendation;
                 }
-                
             } elseif (preg_match('/^—/', $recommendationLine, $matches)) {
                 $previousLineType = 'name';
                 $matches = explode('—', $recommendationLine);
