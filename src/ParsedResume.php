@@ -186,7 +186,7 @@ class ParsedResume implements JsonSerializable, Arrayable, ArrayAccess
     /**
      * @return Role
      */
-    public function getCurrentRole(): Role
+    public function getCurrentRole()
     {
         return $this->currentRole;
     }
