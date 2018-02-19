@@ -1,8 +1,6 @@
 # LinkedIn Resume Parser
 
-[![Build Status](https://travis-ci.org/Persata/linkedin-resume-parser.svg?branch=master)](https://travis-ci.org/Persata/linkedin-resume-parser)
-
-This library parses LinkedIn PDF resumes into a set of PHP entities. The entities are based on the various sections
+This library parses LinkedIn PDF resumes from Recruiter portal into a set of PHP entities. The entities are based on the various sections
 found in each resume, making it easy to extract information such as current / previous roles, education history,
 certifications etc.
 
@@ -40,5 +38,5 @@ More test data would always be appreciated, so if you wish to include your resum
 relevant tests.
 
 The existing test data for this project is a collection of LinkedIn resumes I found on GitHub. If your resume is
-here, and you wish to have it removed, I'm easily reachable on Twitter at [@persata](https://twitter.com/persata),
+here, and you wish to have it removed, I'm easily reachable on Twitter at [@akhileshdarjee](https://twitter.com/akhileshdarjee),
 or open an issue on this repository.
