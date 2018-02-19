@@ -536,21 +536,21 @@ class Parser
         foreach ($roleLines as $key => $roleLine) {
 
             $roleLineText = $roleLine->getText();
-            // if(preg_match('/Page/', $roleLineText)) {
-            //     echo "Line".$key.' '.$roleLineText;
-            //     echo "<br>";
-            // }
-            if(preg_match('/\d{4} .*-.*/', $roleLineText)) {
+
+            if(preg_match('/\d{4} \s+-.*/', $roleLineText)) {
+                $previousLineWasBold = false;
                 $roleGroups[$currentGroupIndex]['date'] = trim(preg_replace('/[\s\x00]/u', ' ', $roleLineText));
-            } elseif (preg_match('/ at /', $roleLineText) && strlen($roleLineText)<100) {
+            } elseif (preg_match('/ at /', $roleLineText) && $roleLine->isBold()) {
                 $currentGroupIndex += 1;
-                    $roleGroups[$currentGroupIndex] = [
-                        'title'   => '',
-                        'date'    => '',
-                        'summary' => '',
-                    ];
-                    $roleGroups[$currentGroupIndex]['title'] .= $roleLineText;
-            } elseif ( ! preg_match('/^\(.*\)$/', $roleLineText) && ! preg_match('/Page/', $roleLineText) && strlen($roleLineText) > 1) { // This indicates the duration, so skip it.
+                $roleGroups[$currentGroupIndex] = [
+                    'title'   => '',
+                    'date'    => '',
+                    'summary' => '',
+                ];
+                $roleGroups[$currentGroupIndex]['title'] .= $roleLineText;
+                $previousLineWasBold = true;
+            } elseif ( ! preg_match('/^\(.*\)$/', $roleLineText) && !preg_match('/Page/', $roleLineText) && strlen($roleLineText) > 1) { // This indicates the duration, so skip it.
+                $previousLineWasBold = false;
                 $roleGroups[$currentGroupIndex]['summary'] .= $roleLineText . '\r\n';
             }
             //--------Original code ----------------
@@ -1116,12 +1116,11 @@ class Parser
     {
         $recommendationLines = $this->getRecommendationLines($lastSectionLines);
 
-        if ( ! count($recommendationLines)) {
+        if (!count($recommendationLines)) {
             return [];
         }
 
         $previousLineType = null;
-
         $recommendations = [];
 
         /** @var Recommendation $recommendation */
@@ -1132,37 +1131,85 @@ class Parser
             $recommendationLineText = $recommendationLine->getText();
             $recommendationLineText = $this->cleanString($recommendationLineText);
 
-            if (preg_match('/^&#34;\w/', $recommendationLineText)) {
+            if (strpos($recommendationLineText, 'Profile Notes and Activity') === 0) {
+               break;
+            }
 
-                $previousLineType = 'summary';
-
-                $recommendation = (new Recommendation())->appendSummary(trim($recommendationLineText));
+            if (preg_match('/^"(.*)\"$/', $recommendationLineText, $matches) || preg_match('/^"(.*)/', $recommendationLineText, $matches) || preg_match('/^&#34;\w/', $recommendationLineText, $matches)) {
                 if (isset($recommendation)) {
                     $recommendations[] = $recommendation;
                 }
-            } elseif (preg_match('/^—/', $recommendationLine, $matches)) {
-                $previousLineType = 'name';
-                $matches = explode('—', $recommendationLine);
 
-                $recommendation->setName($matches[1]);
-            } elseif (preg_match('/^\,.*\,/', $recommendationLineText)) {
+                $previousLineType = 'summary';
+                $recommendation = (new Recommendation())->appendSummary($matches[1]);
+            } elseif (preg_match('/\—\s(.*)/', $recommendationLineText, $matches) || $recommendationLine->isBold()) {
+                $previousLineType = 'name';
+
+                if ($recommendationLine->isBold()) {
+                    $recommendation->setName(trim($recommendationLineText));
+                } else {
+                    $recommendation->setName($matches[1]);
+                }
+            } elseif ($recommendationLine->isItalics() && preg_match('/^\,\s(.*)/', $recommendationLineText, $matches)) {
                 $previousLineType = 'position';
-                $matches = explode(',', $recommendationLineText);
                 $recommendation->setPosition($matches[1]);
-            } elseif (preg_match('/^\,/', $recommendationLine) && !preg_match('/^\,.*\,/', $recommendationLine)) {
+            } elseif (($previousLineType === 'position' || $previousLineType === 'name') && preg_match('/^\,\s(.*)/', $recommendationLineText, $matches)) {
                 $previousLineType = 'relation';
-                $matches = explode(',', $recommendationLine);
-                $matches[1] = trim(preg_replace('/[\s\x00]/u', ' ', $matches[1]));
                 $recommendation->setRelation(ucfirst($matches[1]));
             } elseif (preg_match('/(.*)"$/', $recommendationLineText, $matches)) {
                 $previousLineType = 'summary';
                 $recommendation->appendSummary($matches[1]);
             } else {
-                if($previousLineType == 'summary' && $recommendationLineText)
-                    $recommendation->appendSummary($recommendationLineText);
+                $previousLineType = 'summary';
+                $recommendation->appendSummary($recommendationLineText);
             }
+
+            // Custom Code
+            // if (preg_match('/^&#34;\w/', $recommendationLineText)) {
+            //     $previousLineType = 'summary';
+            //     $recommendation = (new Recommendation())->appendSummary(trim($recommendationLineText));
+
+            //     if (isset($recommendation)) {
+            //         $recommendations[] = $recommendation;
+            //     }
+            // } elseif (preg_match('/^—/', $recommendationLine, $matches)) {
+            //     $previousLineType = 'name';
+            //     $matches = explode('—', $recommendationLine);
+
+            //     if (isset($recommendation)) {
+            //         $recommendation->setName($matches[1]);
+            //     }
+            // } elseif (preg_match('/^\,.*\,/', $recommendationLineText)) {
+            //     $previousLineType = 'position';
+            //     $matches = explode(',', $recommendationLineText);
+
+            //     if (isset($recommendation) && $recommendation) {
+            //         $recommendation->setPosition($matches[1]);
+            //     }
+            // } elseif (preg_match('/^\,/', $recommendationLine) && !preg_match('/^\,.*\,/', $recommendationLine)) {
+            //     $previousLineType = 'relation';
+            //     $matches = explode(',', $recommendationLine);
+            //     $matches[1] = trim(preg_replace('/[\s\x00]/u', ' ', $matches[1]));
+
+            //     if (isset($recommendation) && $recommendation) {
+            //         $recommendation->setRelation(ucfirst($matches[1]));
+            //     }
+            // } elseif (preg_match('/(.*)"$/', $recommendationLineText, $matches)) {
+            //     $previousLineType = 'summary';
+
+            //     if (isset($recommendation)) {
+            //         $recommendation->appendSummary($matches[1]);
+            //     }
+            // } else {
+            //     if($previousLineType == 'summary' && $recommendationLineText)
+            //         $recommendation->appendSummary($recommendationLineText);
+            // }
         }
-        
+
+        if (isset($recommendation) && !in_array($recommendation, $recommendations)) {
+            array_push($recommendations, $recommendation);
+        }
+
         return $recommendations;
     }
 
